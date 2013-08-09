@@ -11,20 +11,22 @@
 * Dual MIT/BSD license
 */
 
-mql = (function(doc, undefined) {
+if(Modernizr.csstransitions !== false) {
+
+    mql = (function(doc, undefined) {
 
     var docElem = doc.documentElement,
         refNode = docElem.firstElementChild || docElem.firstChild,
         idCounter = 0;
         if(!doc.getElementById('mq-style')) {
-            style = doc.createElement('style');
-            style.id = 'mq-style';
-            style.textContent = '.mq { -webkit-transition: width 0.001ms; -moz-transition: width 0.001ms; -o-transition: width 0.001ms; -ms-transition: width 0.001ms; width: 0; position: absolute; top: -100em; }\n';
-            docElem.insertBefore(style, refNode);
+          style = doc.createElement('style');
+          style.id = 'mq-style';
+          style.textContent = '.mq { -webkit-transition: width 0.001ms; -moz-transition: width 0.001ms; -o-transition: width 0.001ms; -ms-transition: width 0.001ms; width: 0; position: absolute; top: -100em; }\n';
+          docElem.insertBefore(style, refNode);
         }
 
     var transitionEnds = Array('transitionend','webkitTransitionEnd','oTransitionEnd','msTransitionEnd');
-	
+
     for(var i in transitionEnds) {
         if ('on'+ transitionEnds[i].toLowerCase() in window)  transitionEnd = transitionEnds[i];
     }
@@ -45,8 +47,13 @@ mql = (function(doc, undefined) {
         div.id = id;
         style.textContent += '@media ' + q + ' { #' + div.id + ' { width: 42px; } }\n';
 
-        // add transition event listener
-        div.addEventListener(transitionEnd, callback, false);
+        if(typeof(transitionEnd) !== "undefined") {
+            // add transition event listener
+            div.addEventListener(transitionEnd, callback, false);
+        }
+        else {
+            return;
+        }
 
         docElem.insertBefore(div, refNode);
 
@@ -58,4 +65,6 @@ mql = (function(doc, undefined) {
         };
     };
 
-})(document);
+    })(document);
+
+}
