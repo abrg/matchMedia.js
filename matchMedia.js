@@ -17,17 +17,17 @@ mql = (function(doc, undefined) {
         refNode = docElem.firstElementChild || docElem.firstChild,
         idCounter = 0;
         if(!doc.getElementById('mq-style')) {
-          style = doc.createElement('style');
-          style.id = 'mq-style';
-          style.textContent = '.mq { -webkit-transition: width 0.001ms; -moz-transition: width 0.001ms; -o-transition: width 0.001ms; -ms-transition: width 0.001ms; width: 0; position: absolute; top: -100em; }\n';
-          docElem.insertBefore(style, refNode);          
+            style = doc.createElement('style');
+            style.id = 'mq-style';
+            style.textContent = '.mq { -webkit-transition: width 0.001ms; -moz-transition: width 0.001ms; -o-transition: width 0.001ms; -ms-transition: width 0.001ms; width: 0; position: absolute; top: -100em; }\n';
+            docElem.insertBefore(style, refNode);
         }
 
-     var transitionEnds = Array('transitionend','webkitTransitionEnd','oTransitionEnd','msTransitionEnd');
+    var transitionEnds = Array('transitionend','webkitTransitionEnd','oTransitionEnd','msTransitionEnd');
 	
-     for(var i in transitionEnds) { 
-	if ('on'+ transitionEnds[i].toLowerCase() in window)  transitionEnd = transitionEnds[i];
-     }	
+    for(var i in transitionEnds) {
+        if ('on'+ transitionEnds[i].toLowerCase() in window)  transitionEnd = transitionEnds[i];
+    }
 
     return function(q, cb) {
 
@@ -43,10 +43,10 @@ mql = (function(doc, undefined) {
 
         div.className = 'mq'; // mq class in CSS declares width: 0 and transition on width of duration 0.001ms
         div.id = id;
-        style.textContent += '@media ' + q + ' { #' + div.id + ' { width: 42px; } }\n';        
+        style.textContent += '@media ' + q + ' { #' + div.id + ' { width: 42px; } }\n';
 
         // add transition event listener
-        div.addEventListener(transitionEnd, callback, false); 
+        div.addEventListener(transitionEnd, callback, false);
 
         docElem.insertBefore(div, refNode);
 
